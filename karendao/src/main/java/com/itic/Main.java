@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import org.hibernate.SessionFactory;
 
 import com.itic.Views.InputView;
-import com.itic.HibernateUtil;
 
 public class Main {
     public static void main(String[] args) {

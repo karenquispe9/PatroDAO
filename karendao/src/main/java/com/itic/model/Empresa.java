@@ -24,6 +24,9 @@ public class Empresa implements Serializable {
     @Column(name = "id_empresa")
     private int idEmpresa;
 
+    @Column(name = "nom", nullable = false)
+    private String nom;
+
     @Column(name = "descripcio", nullable = false)
     private String descripcio;
 
@@ -45,6 +48,14 @@ public class Empresa implements Serializable {
 
     public void setIdEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getDescripcio() {

@@ -40,4 +40,12 @@ public class DepartamentDAO extends GenDAOImpl<Departament> {
             throw new Exception("Error eliminant departament", e);
         }
     }
+
+    public Departament find(int id) throws Exception {
+        try (Session session = getSessionFactory().openSession()) {
+            return session.get(Departament.class, id);
+        } catch (Exception e) {
+            throw new Exception("Error finding Departament by id", e);
+        }
+    }
 }

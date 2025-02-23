@@ -27,6 +27,9 @@ public class Departament implements Serializable {
     @Column(name = "id_departament")
     private int idDepartament;
 
+    @Column(name = "nom", nullable = false)
+    private String nom;
+
     @ManyToOne
     @JoinColumn(name = "id_gerent_fk", nullable = false)
     private Empleat gerent;
@@ -62,6 +65,14 @@ public class Departament implements Serializable {
 
     public void setIdDepartament(int idDepartament) {
         this.idDepartament = idDepartament;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public Empleat getGerent() {

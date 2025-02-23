@@ -40,4 +40,12 @@ public class TasquesDAO extends GenDAOImpl<Tasques> {
             throw new Exception("Error eliminant tasca", e);
         }
     }
+
+    public Tasques find(int id) throws Exception {
+        try (Session session = getSessionFactory().openSession()) {
+            return session.get(Tasques.class, id);
+        } catch (Exception e) {
+            throw new Exception("Error finding Tasques by id", e);
+        }
+    }
 }

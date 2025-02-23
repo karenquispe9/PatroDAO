@@ -40,5 +40,13 @@ public class EmpleatDAO extends GenDAOImpl<Empleat> {
         }
     }
 
+    public Empleat find(int id) throws Exception {
+        try (Session session = getSessionFactory().openSession()) {
+            return session.get(Empleat.class, id);
+        } catch (Exception e) {
+            throw new Exception("Error finding Empleat by id", e);
+        }
+    }
+
     
 }

@@ -68,14 +68,14 @@ public class InputView {
         
     }
 
-    private static void menuCrear(BufferedReader bf, SessionFactory sf){
+    private static void menuCrear(BufferedReader bf, SessionFactory sf) {
         try {
             boolean continuarCrear = true;
             EmpresaDAO empresaDAO = new EmpresaDAO(sf);
             DepartamentDAO departamentDAO = new DepartamentDAO(sf);
             EmpleatDAO empleatDAO = new EmpleatDAO(sf);
             TasquesDAO tasquesDAO = new TasquesDAO(sf);
-
+    
             while (continuarCrear) {
                 System.out.println("\nCREATE");
                 System.out.println("1. Crear EMPRESA");
@@ -84,36 +84,92 @@ public class InputView {
                 System.out.println("4. Crear TASCA");
                 System.out.println("5. Sortir");
                 System.out.print("Escull una opció: ");
-
+    
                 int opcioCrear = Integer.parseInt(bf.readLine());
-
+    
                 switch (opcioCrear) {
                     case 1:
-                        Empresa empresa = new Empresa();
-                        empresaDAO.save(empresa);  
-                        System.out.println("EMPRESA creada correctament");
+                        // Crear EMPRESA
+                        System.out.print("Introduzca el nombre de la empresa: ");
+                        String nombreEmpresa = bf.readLine();
+    
+                        // Verificar si el nombre está vacío
+                        if (nombreEmpresa == null || nombreEmpresa.trim().isEmpty()) {
+                            System.out.println("El nombre de la empresa no puede estar vacío.");
+                        } else {
+                            // Pedir la descripción de la empresa
+                            System.out.print("Introduzca la descripción de la empresa: ");
+                            String descripcioEmpresa = bf.readLine();
+
+                            // Verificar si la descripción está vacía
+                            if (descripcioEmpresa == null || descripcioEmpresa.trim().isEmpty()) {
+                                System.out.println("La descripción de la empresa no puede estar vacía.");
+                            } else {
+                                 // Si el nombre y la descripción son válidos, crear la empresa
+                                Empresa empresa = new Empresa();
+                                empresa.setNom(nombreEmpresa);
+                                empresa.setDescripcio(descripcioEmpresa);
+
+                                // Guardar la empresa en la base de datos
+                                empresaDAO.save(empresa);
+                                System.out.println("EMPRESA creada correctamente.");
+                            }
+                        }
                         break;
                     case 2:
-
+                        // Crear DEPARTAMENT
+                        System.out.print("Introduzca el nombre del departamento: ");
+                        String nomDepartament = bf.readLine();
+    
                         Departament departament = new Departament();
+                        departament.setNom(nomDepartament);
+    
                         departamentDAO.save(departament);
                         System.out.println("DEPARTAMENT creat correctament");
                         break;
+    
                     case 3:
-                        
-                        Empleat empleat = new Empleat();
+                        // Crear EMPLEAT
+                        System.out.print("Introduzca el DNI del empleado: ");
+                        int dniEmpleat = Integer.parseInt(bf.readLine());
+    
+                        System.out.print("Introduzca el nombre del empleado: ");
+                        String nomEmpleat = bf.readLine();
+    
+                        System.out.print("Introduzca el apellido del empleado: ");
+                        String cognomEmpleat = bf.readLine();
+    
+                        System.out.print("Introduzca el id del departamento del empleado: ");
+                        int idDepartament = Integer.parseInt(bf.readLine());
+                        Departament departamentEmpleat = departamentDAO.find(idDepartament); // Busca el departamento por id
+    
+                        Empleat empleat = new Empleat(dniEmpleat, nomEmpleat, cognomEmpleat, departamentEmpleat);
+    
                         empleatDAO.save(empleat);
                         System.out.println("EMPLEAT creat correctament");
                         break;
+    
                     case 4:
-                        
+                        // Crear TASCA
+                        System.out.print("Introduzca la descripción de la tarea: ");
+                        String descripcioTasca = bf.readLine();
+    
+                        System.out.print("Introduzca el id del empleado principal de la tarea: ");
+                        int idEmpleatPrincipal = Integer.parseInt(bf.readLine());
+                        Empleat empleatPrincipal = empleatDAO.find(idEmpleatPrincipal); // Busca el empleado por id
+    
                         Tasques tasca = new Tasques();
+                        tasca.setDescripcio(descripcioTasca);
+                        tasca.setEmpleatPrincipal(empleatPrincipal);
+    
                         tasquesDAO.save(tasca);
                         System.out.println("TASCA creada correctament");
                         break;
+    
                     case 5:
                         continuarCrear = false;  // Salir del menú de crear
                         break;
+    
                     default:
                         System.out.println("Opció no vàlida");
                 }
@@ -125,9 +181,8 @@ public class InputView {
         } catch (Exception ex) {
             System.err.println("Error: " + ex.getMessage());
         }
-
     }
-
+    
     private static void menuModificar(BufferedReader bf, SessionFactory sf){
         try {
             boolean continuarModificar = true;
